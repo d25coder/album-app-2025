@@ -3,6 +3,8 @@
 const express = require('express')
 // 2
 const server = express()
+//8 import, from root directoty go to routes then router
+const router = require('./routes/router')
 // 3
 const PORT = process.env.PORT || 3000
 
@@ -35,6 +37,9 @@ server.use(helmet.contentSecurityPolicy({
 server.use(cors())
 server.use(express.json())
 server.use(express.urlencoded({ extended: true}))
+
+// 9 localhost:3000
+server.use('/', router)
 
 
 
