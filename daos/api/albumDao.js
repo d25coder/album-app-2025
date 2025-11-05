@@ -19,7 +19,7 @@ const albumDao = {
             ELSE ar.fName
             END fName,
         CASE
-            WHEN ar.lName IS NUL THEN ''
+            WHEN ar.lName IS NULL THEN ''
             ELSE ar.lName
             END lname,
         CASE
@@ -45,7 +45,9 @@ const albumDao = {
         
         con.query(
             sql,
-            queryAction(res, error, rows, table)
+            (error, rows)=> {
+                queryAction(res, error, rows, table)
+            }
         )
     }
 }

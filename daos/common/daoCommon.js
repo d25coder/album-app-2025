@@ -45,7 +45,7 @@ const daoCommon = {
     findById: (res, table, id)=> {
 
         connect.query(
-            `SELECT * FROM ${table} WHERE ${table}_id = ${id}:`,
+            `SELECT * FROM ${table} WHERE ${table}_id = ${id};`,
             (error, rows)=> {
                 if (!error) {
                     res.json(...rows)
@@ -66,7 +66,7 @@ const daoCommon = {
 //3-2a SORT BY: Title, Album, or YrReleased
     sort: (res, table, sorter)=> {
         connect.query(
-            `SELECT * FROM ${table} ORDER BY ${sorter}:`,
+            `SELECT * FROM ${table} ORDER BY ${sorter};`,
             (error, rows)=> {
                 queryAction(res, error, rows, table)
                 // if (!error) {
@@ -83,6 +83,33 @@ const daoCommon = {
                 // }
             }
         )
+    },
+    create: (req, res, table)=> {
+        if (Object.keys(req.body).length ===0) {
+            res.json({
+                "error": true,
+                "message": "No fields to create"
+            })
+        } else {
+            const fields = Object.keys(req.body)
+            const values = Object.values(req.body)
+
+            //join method add/join argument inside ()
+            //insert into artist
+            connect.execute(
+                `INSERT INTO ${table} SET ${fields.join(' = ?, ')} = ?;`,
+                values, 
+                (error, dbres)=> {
+                    if (!error){
+                        res.json({
+                            Last_id: dbres.insertId
+                        })
+                    } else {
+                        console.log(`${table}Dao error:`, error)
+                    }
+                }
+            )
+        }
     }
 }
 

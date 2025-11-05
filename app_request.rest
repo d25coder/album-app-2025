@@ -9,3 +9,11 @@
 GET http://localhost:3000/api/artist
 
 GET http://localhost:3000/api/artist/sort/fName
+
+###
+POST http://localhost:3000/api/artist/create
+Content-Type: application/json
+{
+    "fname": "michael",
+    "lName": "jackson"
+}
