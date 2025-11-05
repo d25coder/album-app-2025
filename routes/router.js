@@ -10,12 +10,30 @@ const PORT = process.env.PORT || 3000
 router.get('/api', (req, res)=> {
     //res.send('album api') //check to see if its working
     res.json({
-        'All Albums': `http://localhost:${PORT}/api/album`  //when someone click on api/album, use module albumRoute
+        'All Albums': `http://localhost:${PORT}/api/album`,  //when someone click on api/album, use module albumRoute
+        'All Artist': `http://localhost:${PORT}/api/artist`,
+        'All Band': `http://localhost:${PORT}/api/band`,
+        'All Label': `http://localhost:${PORT}/api/label`
     })
 })
 
+// shorten
+const endpoint = [
+    'album',
+    'artist',
+    'band', 
+    'label'
+]
+
 //6-7 whenever someone click on /api/slbum, then used albumRoutes
-router.use('/api/album', require('./api/albumRoutes'))
+//router.use('/api/album', require('./api/albumRoutes'))
+//router.use('/api/artist', require('./api/artistRoutes'))
+
+// shorten 
+endpoint.forEach(endpoint => {
+    router.use(`/api/${endpoint}`, require(`./api/${endpoint}Routes`))
+})
+
 
 // 6-2 error page
 router.use((req, res, next)=> {

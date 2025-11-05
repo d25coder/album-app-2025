@@ -1,7 +1,11 @@
 //GET album
-GET http://localhost:3000/api/album
+#GET http://localhost:3000/api/album
 
 # // GET a single album
 # GET http://localhost:3000/api/album/4
 
 # GET http://localhost:3000/api/album/sort/label_id
+
+GET http://localhost:3000/api/artist
+
+GET http://localhost:3000/api/artist/sort/fName

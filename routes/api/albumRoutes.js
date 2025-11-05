@@ -22,6 +22,11 @@ router.get('/', (req, res)=> {
     dao.findAlbumInfo(res, dao.table)
 })
 
+//~ albumDao.js
+router.get('/get_albums/:id', (req, res)=> {
+    dao.findAlbumsByArtistId(res, dao.table, req.params.id)
+})
+
 
 //3-2b localhost:3000/album/sort/yrReleased
 router.get('/sort/:sorter', (req, res)=> {

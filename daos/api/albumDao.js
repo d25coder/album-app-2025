@@ -17,7 +17,7 @@ const albumDao = {
         CASE 
             WHEN ar.fName IS NULL THEN ''
             ELSE ar.fName
-            END fNames,
+            END fName,
         CASE
             WHEN ar.lName IS NUL THEN ''
             ELSE ar.lName
@@ -31,13 +31,21 @@ const albumDao = {
         LEFT OUTER JOIN artist ar USING (artist_id)
         LEFT OUTER JOIN band b USING (band_id)
         JOIN label l USING (label_id)
-        ORDER BY al.artist_id;`
+        ORDER BY al.album_id;`
 
         con.query(
             sql,
             (error, rows)=> {
                 queryAction(res, error, rows, table)
             }
+        )
+    },
+    findAlbumsByArtistId: (res, table, id)=> {
+        const sql = `SELECT title, album_id, yr_released FROM ${table} WHERE artist_id = ${id};`
+        
+        con.query(
+            sql,
+            queryAction(res, error, rows, table)
         )
     }
 }
