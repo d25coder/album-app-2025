@@ -1,7 +1,5 @@
 const con = require('../../config/dbconfig')
 
-
-
 const labelDao = {
     table: 'label',
 
@@ -29,6 +27,12 @@ const labelDao = {
                             }
                         }
                     )
+                } else {
+                    res.json({
+                        message: 'error',
+                        table: `${table}`,
+                        error: error 
+                    })
                 }
             }
         )

@@ -1,15 +1,27 @@
-//GET album
-#GET http://localhost:3000/api/album
+//GET All album
+GET http://localhost:3000/api/album
 
-# // GET a single album
-# GET http://localhost:3000/api/album/4
+//GET single album
+###
+GET http://localhost:3000/api/album/4
 
-# GET http://localhost:3000/api/album/sort/label_id
+###
+GET http://localhost:3000/api/artist/3
 
+//GET albums Order By
+###
+GET http://localhost:3000/api/album/sort/label_id
+
+//GET Artist
+###
 GET http://localhost:3000/api/artist
 
+
+###
 GET http://localhost:3000/api/artist/sort/fName
 
+###
+GET http://localhost:3000/api/album/get_albums/3
 ###
 POST http://localhost:3000/api/artist/create
 Content-Type: application/json

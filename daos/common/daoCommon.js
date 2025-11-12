@@ -84,8 +84,10 @@ const daoCommon = {
             }
         )
     },
+ // req.body comes from the url .. go to server.js 
+ // if object.keys is = 0, res.json> "No fields to create"
     create: (req, res, table)=> {
-        if (Object.keys(req.body).length ===0) {
+        if (Object.keys(req.body).length === 0) {
             res.json({
                 "error": true,
                 "message": "No fields to create"
@@ -96,18 +98,70 @@ const daoCommon = {
 
             //join method add/join argument inside ()
             //insert into artist
+        /**
+         * req.body = {
+         *      name: = des
+         *      age: 30
+         *      occupation: MSA
+         *      favTeam: commanders
+         * }
+         *      fields = [name, age, occupation, favTeam]
+         *      values = ['des, 30, MSA, commanders']
+         * 
+         *       fields = [0]
+                 value = [0]
+        */
             connect.execute(
+                // where there ? import value
                 `INSERT INTO ${table} SET ${fields.join(' = ?, ')} = ?;`,
                 values, 
                 (error, dbres)=> {
-                    if (!error){
-                        res.json({
+                    if (!error){ //if no error
+                        res.json({ // res Id
                             Last_id: dbres.insertId
                         })
-                    } else {
+                    } else { //elso res DAO error
                         console.log(`${table}Dao error:`, error)
                     }
                 }
+            )
+        }
+    },
+// UPDATE
+    update: (req, res, table)=> {
+// check if id == number, if id equals a number, will not work
+        if (isNaN(req.params.id)) {
+            res.json({
+                "error": true,
+                "message": "Id must be a number"
+            })
+        } else if (Object.keys(req.body).length == 0) {
+            res.json({
+                "error": true,
+                "message": "No fields to update"
+            })
+        } else {
+            const fields = Object.keys(req.body)
+            const values = Object.values(req.body)
+
+            connect.execute(
+                `UPDATE ${table}
+                    SET ${fields.join(' = ?, ')} = ? WHERE ${table}_id = ?;`,
+// values, req.param represent the second ?
+                [...values, req.params.id],
+                (error, dbres)=> {
+                    if (!error) {
+                        res.json({
+                            "status": 'updated',
+                            "changedRows": dbres.changedRows
+                        })
+                    } else {
+                        res.json
+                            "error": true,
+                            "message": error 
+                        })
+                    }
+                }  // go to artistRoutes.js to PATCH:
             )
         }
     }

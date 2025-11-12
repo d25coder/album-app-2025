@@ -18,15 +18,22 @@ router.get('/get_albums/:id', (req, res)=> {
 router.get('/sort/:sorter', (req, res)=> {
     dao.sort(res, dao.table, req.params.sorter)
 })
-//4
+//4 localhost://3000/api/artist/james brown
 router.get('/:id', (req, res)=> {
     dao.findById(res, dao.table, req.params.sorter)
 })
+
+// POST
 
 // http://localhost:3000/api/artist/create
 router.post('/create', (req, res)=>{
     dao.create(req, res, dao.table)
 })
 
+
+// PATCH - partial updates
+router.patch('/update/:id', (req, res)=> {
+    dao.update(req, res, dao.table)
+})
 // 2
 module.exports = router

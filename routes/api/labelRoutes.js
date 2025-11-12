@@ -18,4 +18,13 @@ router.get('/:id', (req, res)=> {
     dao.findById(res, dao.table, req.params.id)
 })
 
+router.post('/created', (req, res)=> {
+    dao.create(req, res, dao.table)
+})
+
+// PATCH
+router.patch('/update/:id', (req, res)=> {
+    dao.update(req, res, dao.table)
+})
+
 module.exports = router

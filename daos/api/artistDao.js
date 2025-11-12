@@ -22,7 +22,7 @@ const artistDao = {
                         albums.push(obj) 
                     })
                     // console.log(albums)
-                    con.execute(
+                    con.query(
                         `SELECT * FROM ${table} WHERE ${table}_id = ${id};`,
                         (error, rows)=> {
                             rows.forEach(row => {

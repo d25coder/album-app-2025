@@ -34,6 +34,7 @@ server.use(helmet.contentSecurityPolicy({
 
 //configuration
 // 6-1
+//line 39-40 takes a request, parse req, format as object, and turns to json
 server.use(cors())
 server.use(express.json())
 server.use(express.urlencoded({ extended: true}))

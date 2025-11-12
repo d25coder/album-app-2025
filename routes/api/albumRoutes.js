@@ -42,5 +42,10 @@ router.get('/sort/:sorter', (req, res)=> {
 router.get('/:id', (req, res)=> {
     dao.findById(res, dao.table, req.params.id)
 })
+
+// PATCH
+router.patch('/update/:id', (req, res)=> {
+    dao.update(req, res, dao.table)
+})
 //6-3
 module.exports = router
