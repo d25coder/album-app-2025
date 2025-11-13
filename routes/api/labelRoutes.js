@@ -18,6 +18,7 @@ router.get('/:id', (req, res)=> {
     dao.findById(res, dao.table, req.params.id)
 })
 
+// POST
 router.post('/created', (req, res)=> {
     dao.create(req, res, dao.table)
 })

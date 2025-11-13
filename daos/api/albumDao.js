@@ -49,6 +49,59 @@ const albumDao = {
                 queryAction(res, error, rows, table)
             }
         )
+    },
+
+    createAlbum: (req, res, table)=> {
+// capture fName, lName, band, and label
+        const fName = req.body.fName
+        const lName = req.body.lName
+        const band = req.body.band 
+        const label = req.body.label 
+
+
+        let data = {
+            artist_id: null,
+            band_id: null,
+            label_id: null 
+        }
+        let artist = {}
+
+        
+// check the database, check in artist table 
+        con.execute(
+        `SELECT * FROM artist;`,
+            (error, rows)=> {
+                if (!error) {
+// if fName is not equal to nul and lName is not equal to null
+//find artist where fName and lName are the same as artist.fName and artist.lName
+                    if (fName != null || lName != null) {
+                        artist = rows.find(artist => artist.fName == fName && artist.lName == lName)
+                        console.log(artist)
+
+// if artist is undefined add to artist table
+                        if (artist == undefined) {
+                            con.execute(
+                                `INSERT INTO artist SET fName = "${fname}", lName = "${lName}";`
+                                (error, dbres)=> {
+                                    if (!error) {
+                                        data.artist_id = dbres.insertId
+                                        console.log(data.artist_id)
+                                    } else{
+                                        console.log(error)
+                                    }
+                                }
+                            ) 
+                        }
+                    }
+                }
+            }
+        )
+        data = {
+            aritst_id: artist.artist_id,
+            band_id: null,
+            label_id: null
+        }
+        res.json(data)
     }
 }
 

@@ -39,6 +39,9 @@ server.use(cors())
 server.use(express.json())
 server.use(express.urlencoded({ extended: true}))
 
+//installed ejs, let the server know, set server as view engine
+server.set('view engine', 'ejs')
+
 // 9-1 localhost:3000
 server.use('/', router)
 

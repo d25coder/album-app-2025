@@ -47,16 +47,17 @@ const daoCommon = {
         connect.query(
             `SELECT * FROM ${table} WHERE ${table}_id = ${id};`,
             (error, rows)=> {
-                if (!error) {
-                    res.json(...rows)
-                } else {
-                    console.log(`DAO Error: ${error}`)
-                    res.json({
-                        "message": 'error',
-                        'table': `${table}`,
-                        'error': error 
-                    })
-                }
+                queryAction(res, error, rows, table)
+                // if (!error) {
+                //     res.json(...rows)
+                // } else {
+                //     console.log(`DAO Error: ${error}`)
+                //     res.json({
+                //         "message": 'error',
+                //         'table': `${table}`,
+                //         'error': error 
+                //     })
+                // }
             }
         )
     },
@@ -117,9 +118,9 @@ const daoCommon = {
                 values, 
                 (error, dbres)=> {
                     if (!error){ //if no error
-                        res.json({ // res Id
-                            Last_id: dbres.insertId
-                        })
+                        // res.json({ // res Id
+                        //     Last_id: dbres.insertId
+                        // })
                     } else { //elso res DAO error
                         console.log(`${table}Dao error:`, error)
                     }
@@ -156,7 +157,7 @@ const daoCommon = {
                             "changedRows": dbres.changedRows
                         })
                     } else {
-                        res.json
+                        res.json({
                             "error": true,
                             "message": error 
                         })
@@ -164,6 +165,23 @@ const daoCommon = {
                 }  // go to artistRoutes.js to PATCH:
             )
         }
+    },
+// DANGER Zone!!
+    delete: (res, table, id)=> {
+        console.log(`${table}_id: ${id}`)
+        connect.execute(
+            `DELETE from ${table} WHERE ${table}_id = ${id}; SET @num := 0; UPDATE ${table} SET ${table}_id + @num := (@num + 1); ALTER TABLE ${table} AUTO_INCREMENT = 1;`,
+            (error, dbres)=> {
+                if (!error) {
+                    res.send('Record Deleted')
+                } else {
+                    res.json({
+                        "error": true,
+                        "message": error
+                    })
+                }
+            }
+        )
     }
 }
 

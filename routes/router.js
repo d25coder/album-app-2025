@@ -6,6 +6,22 @@ const router = express.Router()
 const PORT = process.env.PORT || 3000
 
 
+// Home Page
+router.get('/', (req, res)=> {
+    res.render('pages/home', {
+        title: 'album-app home',
+        name: "Destinie's Album App"
+    })
+})
+
+// Artist-form http://localhost:3000/artist-form
+router.get('/artist-form', (req, res)=> {
+    res.render('pages/artist-formn', {
+        title: 'artist fprm',
+        name: 'artist-form'
+    })
+})
+
 // 5-2 root route http://localhost:300/api
 router.get('/api', (req, res)=> {
     //res.send('album api') //check to see if its working
@@ -30,7 +46,7 @@ const endpoint = [
 //router.use('/api/artist', require('./api/artistRoutes'))
 
 // shorten 
-endpoint.forEach(endpoint => {
+endpoints.forEach(endpoint => {
     router.use(`/api/${endpoint}`, require(`./api/${endpoint}Routes`))
 })
 
@@ -38,7 +54,11 @@ endpoint.forEach(endpoint => {
 // 6-2 error page
 router.use((req, res, next)=> {
     res.status(404)
-    .send('<h1> Error This page does not exist</h1>')
+    // .send('<h1> Error This page does not exist</h1>')
+    .render('pages/error', {
+        title: 'Error Page',
+        name: 'Error'
+    })
 })
 
 // 3-2
